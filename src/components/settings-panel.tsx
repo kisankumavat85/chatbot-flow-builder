@@ -10,7 +10,6 @@ const settingsType = {
 };
 
 const SettingsPanel = ({ node }: Props) => {
-  console.log("node ---", node);
   if (!node.type) return null;
 
   // TODO: Remove "as textMessage" n give proper types

@@ -1,7 +1,8 @@
 "use client";
 
 import { MessageCircleMore } from "lucide-react";
-import { Handle, NodeProps, Position } from "reactflow";
+import { NodeProps, Position } from "reactflow";
+import CustomHandle from "./custom-handle";
 
 type Props = NodeProps<{ label: string; text: string }>;
 
@@ -20,8 +21,22 @@ const TextMessage = (props: Props) => {
         </p>
         <div className="px-4 py-2 bg-white">{data.text}</div>
       </div>
-      <Handle type="target" position={Position.Left} />
-      <Handle type="source" position={Position.Right} />
+
+      <CustomHandle type="target" position={Position.Left} />
+      <CustomHandle
+        type="source"
+        position={Position.Right}
+        connectable={({ node, connectedEdges }) => {
+          let count = 0;
+          for (let i = 0; i <= connectedEdges.length; ++i) {
+            if (connectedEdges[i]?.source === node.id) {
+              count++;
+            }
+          }
+
+          return count !== 1;
+        }}
+      />
     </div>
   );
 };

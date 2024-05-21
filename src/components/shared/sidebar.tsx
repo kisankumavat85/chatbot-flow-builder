@@ -15,7 +15,7 @@ const Sidebar = () => {
   });
 
   return (
-    <aside className="border-l p-4">
+    <aside className="border-l">
       {selectedNode ? <SettingsPanel node={selectedNode} /> : <NodesPanel />}
     </aside>
   );
