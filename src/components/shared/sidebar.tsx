@@ -1,30 +1,24 @@
-import { MessageCircleMore } from "lucide-react";
-import React from "react";
+import { memo, useState } from "react";
+import { Node, useOnSelectionChange } from "reactflow";
+
+import SettingsPanel from "../settings-panel";
+import NodesPanel from "../nodes-panel";
 
 const Sidebar = () => {
-  const onDragstart = (
-    e: React.DragEvent<HTMLDivElement>,
-    nodeType: string
-  ) => {
-    console.log("drag start");
-    e.dataTransfer.setData("application/reactflow", nodeType);
-    e.dataTransfer.effectAllowed = "move";
-  };
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+
+  useOnSelectionChange({
+    onChange: ({ nodes }) => {
+      if (nodes.length === 1) setSelectedNode(nodes[0]);
+      if (nodes.length === 0) setSelectedNode(null);
+    },
+  });
 
   return (
     <aside className="border-l p-4">
-      <div className="grid grid-cols-2 gap-2">
-        <div
-          className="border border-blue-600 rounded-md text-blue-600 p-3 flex flex-col gap-2 items-center"
-          draggable
-          onDragStart={(e) => onDragstart(e, "textMessage")}
-        >
-          <MessageCircleMore className="w-6 h-6" />
-          <span>Message</span>
-        </div>
-      </div>
+      {selectedNode ? <SettingsPanel node={selectedNode} /> : <NodesPanel />}
     </aside>
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

@@ -5,7 +5,6 @@ import ReactFlow, {
   Background,
   Connection,
   Controls,
-  MiniMap,
   ReactFlowInstance,
   ReactFlowProvider,
   addEdge,
@@ -51,7 +50,7 @@ const Home = () => {
       const type = e.dataTransfer.getData("application/reactflow");
 
       if (typeof type === "undefined" || !type || !reactFlowInstance) {
-        return null;
+        return;
       }
 
       const position = reactFlowInstance.screenToFlowPosition({
