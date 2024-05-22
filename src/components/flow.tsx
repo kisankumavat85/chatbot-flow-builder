@@ -18,18 +18,23 @@ import Sidebar from "./sidebar";
 import { initialEdges, initialNodes } from "@/constants";
 import Header from "./header";
 
+// Add all custom node to nodeTypes
 const nodeTypes = {
   textMessage: TextMessage,
 };
 
 const Flow = () => {
+  // Pass initial values of nodes and edges
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  // Will use this rf instance to extract position of the dropped node in drag and drop operation
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<
     any,
     any
   > | null>(null);
 
+  // We use this onConnect method to convert connection into edge
   const onConnect = useCallback(
     (connection: Connection) => {
       const edge = { ...connection, animated: true, id: `${edges.length + 1}` };
@@ -38,6 +43,7 @@ const Flow = () => {
     [edges, setEdges]
   );
 
+  // This method will be called after darg is over
   const onDragOver = useCallback((e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
@@ -46,17 +52,21 @@ const Flow = () => {
   const onDrop = useCallback(
     (e: DragEvent<HTMLDivElement>) => {
       e.preventDefault();
+
+      // We use this DataTransfer object to hold data related to drag and drop event, We used it to store node type
       const type = e.dataTransfer.getData("application/reactflow");
 
       if (typeof type === "undefined" || !type || !reactFlowInstance) {
         return;
       }
 
+      // Extract node position
       const position = reactFlowInstance.screenToFlowPosition({
         x: e.clientX,
         y: e.clientY,
       });
 
+      // Create new node
       const newNode = {
         id: `${nodes.length + 1}`,
         type,
@@ -67,6 +77,7 @@ const Flow = () => {
         },
       };
 
+      // Add new created node to nodes array
       setNodes((prevNodes) => prevNodes.concat(newNode));
     },
     [reactFlowInstance, nodes.length, setNodes]

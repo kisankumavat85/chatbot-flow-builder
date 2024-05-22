@@ -11,6 +11,7 @@ const Header = () => {
   const onSaveClick = useCallback(() => {
     const nodesIds = getNodes().map((n) => n.id);
 
+    // This set will only add unique ids of the node's handles
     const edgesSet = new Set();
 
     getEdges().forEach((e) => {
@@ -18,10 +19,13 @@ const Header = () => {
       edgesSet.add(e.target);
     });
 
+    // Here we check weather the node id is present in edgesSet, If it is present then that node is connected to other node
     let isValid = false;
 
     for (let i = 0; i < nodesIds.length; i++) {
       isValid = edgesSet.has(nodesIds[i]);
+
+      // If the node id is not present in set we can say that the flow is not valid and we can not save it
       if (!isValid) {
         toast({
           title: "Can't save flow",
@@ -31,6 +35,7 @@ const Header = () => {
       }
     }
 
+    // we can get whole rfInstance as JSON object with the help of toObject fun.
     const flowJson = toObject();
     const flow = JSON.stringify(flowJson);
 
@@ -41,6 +46,7 @@ const Header = () => {
   }, [getNodes, getEdges, toast, toObject]);
 
   const onRestoreClick = useCallback(() => {
+    // Here we will restore the saved rfInstance in local storage
     const flowString = localStorage.getItem("flow");
     if (!flowString) return;
 

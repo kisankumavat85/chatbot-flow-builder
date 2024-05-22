@@ -7,6 +7,7 @@ import CustomHandle from "./custom-handle";
 type Props = NodeProps<{ label: string; text: string }>;
 
 const TextMessage = (props: Props) => {
+  // Extract selected props to style selected node
   const { data, selected } = props;
 
   return (
@@ -27,13 +28,15 @@ const TextMessage = (props: Props) => {
         type="source"
         position={Position.Right}
         connectable={({ node, connectedEdges }) => {
+          // Here we will keep the count of the source id of the edge and node id are equal.
           let count = 0;
-          for (let i = 0; i <= connectedEdges.length; ++i) {
+          for (let i = 0; i < connectedEdges.length; ++i) {
             if (connectedEdges[i]?.source === node.id) {
               count++;
             }
           }
-          return count !== 1;
+          // If count is 0 then we can create connection from source, otherwise we will return false so there will be only one source handle
+          return count === 0;
         }}
       />
     </div>

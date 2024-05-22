@@ -4,6 +4,7 @@ import { MessageCircleMore } from "lucide-react";
 const NodesPanel = () => {
   const onDragstart = useCallback(
     (e: React.DragEvent<HTMLLIElement>, nodeType: string) => {
+      // On drag start event we store nodeType using DataTransfer object
       e.dataTransfer.setData("application/reactflow", nodeType);
       e.dataTransfer.effectAllowed = "move";
     },

@@ -9,6 +9,7 @@ type Props = {
   node: Node;
 };
 
+// This component will be rendered when any node is selected, With the help of this compo. we can change content of the node
 const TextMessageSetting = ({ node }: Props) => {
   const [message, setMessage] = useState(node.data.text);
   const { setNodes } = useReactFlow();
