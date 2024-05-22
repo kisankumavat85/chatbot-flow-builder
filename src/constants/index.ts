@@ -16,15 +16,6 @@ export const initialNodes: Node[] = [
       label: "Send Message",
       text: "Text message 2",
     },
-    position: { x: 250, y: 150 },
-    type: "textMessage",
-  },
-  {
-    id: "3",
-    data: {
-      label: "Send Message",
-      text: "Text message 3",
-    },
     position: { x: 350, y: 150 },
     type: "textMessage",
   },

@@ -24,7 +24,7 @@ interface Props extends HandleProps {
   connectable?: ((args: IsConnectableArgs) => boolean) | number;
 }
 
-const CustomHandle = (props: Props) => {
+const CustomHandle = ({ connectable, ...rest }: Props) => {
   const { nodeInternals, edges } = useStore(selector);
   const nodeId = useNodeId();
 
@@ -36,22 +36,18 @@ const CustomHandle = (props: Props) => {
 
     const connectedEdges = getConnectedEdges([node], edges);
 
-    if (typeof props.connectable === "function") {
-      return props.connectable({ node, connectedEdges });
+    if (typeof connectable === "function") {
+      return connectable({ node, connectedEdges });
     }
 
-    if (typeof props.connectable === "number") {
-      return connectedEdges.length < props.connectable;
+    if (typeof connectable === "number") {
+      return connectedEdges.length < connectable;
     }
 
-    return props.connectable;
-  }, [nodeInternals, edges, nodeId, props]);
+    return connectable;
+  }, [nodeInternals, edges, nodeId, connectable]);
 
-  return (
-    <Handle {...props} isConnectable={isHandleConnectable}>
-      {props.type === "source" ? "s" : "t"}
-    </Handle>
-  );
+  return <Handle {...rest} isConnectable={isHandleConnectable} />;
 };
 
 export default memo(CustomHandle);

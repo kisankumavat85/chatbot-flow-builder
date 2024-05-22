@@ -33,7 +33,6 @@ const TextMessage = (props: Props) => {
               count++;
             }
           }
-
           return count !== 1;
         }}
       />

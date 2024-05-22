@@ -1,8 +1,8 @@
 import { memo, useState } from "react";
 import { Node, useOnSelectionChange } from "reactflow";
 
-import SettingsPanel from "../settings-panel";
-import NodesPanel from "../nodes-panel";
+import SettingsPanel from "./settings-panel";
+import NodesPanel from "./nodes-panel";
 
 const Sidebar = () => {
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
